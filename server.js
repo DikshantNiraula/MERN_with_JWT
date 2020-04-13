@@ -13,6 +13,8 @@ app.use(express.json({ extended: false }));
 //Defining Api's or backend routes
 app.get("/", (req, res) => res.send("Api Running"));
 
+app.use("/api/user/create", require("./routes/api/users"));
+
 const PORT = process.env.PORT || 5000;
 
 //Listen to port
