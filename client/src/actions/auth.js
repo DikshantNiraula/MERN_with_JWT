@@ -7,8 +7,10 @@ import {
   USER_LOADED,
   AUTH_ERROR,
   LOGOUT,
+  CLEAR_USER,
 } from "./types";
 import setAuthToken from "../utils/setAuthToken";
+import { setAlert } from "./alert";
 
 //Load User
 export const loadUser = () => async (dispatch) => {
@@ -48,7 +50,10 @@ export const login = (email, password) => async (dispatch) => {
     dispatch(loadUser());
   } catch (err) {
     const errors = err.response.data.errors;
-    console.log(errors);
+
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+    }
 
     dispatch({
       type: LOGIN_FAIL,
@@ -89,4 +94,5 @@ export const register = ({ name, email, password }) => async (dispatch) => {
 
 export const logout = () => (dispatch) => {
   dispatch({ type: LOGOUT });
+  dispatch({ type: CLEAR_USER });
 };
